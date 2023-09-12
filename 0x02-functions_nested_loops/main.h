@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h>  // Include necessary headers here
+#include <stdio.h>
 
 /* Function prototypes or declarations go here */
 
