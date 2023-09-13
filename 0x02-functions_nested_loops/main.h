@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
-/* Function prototypes or declarations go here */
+int _putchar(char c);
+void print_alphabet(void);
 
 #endif /* MAIN_H */
