@@ -2,5 +2,5 @@
 
 int _putchar(char c)
 {
-	return write(1, &c, 1);
+ZZ	return write(1, &c, 1);
 }

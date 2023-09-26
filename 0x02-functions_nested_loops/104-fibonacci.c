@@ -1,27 +1,29 @@
 #include <stdio.h>
+#include <gmp.h>
 
-/**
- * main - Entry point
- *
- * Return: Always 0 (Success)
- */
 int main(void)
 {
-	unsigned long int a = 1, b = 2, next;
-	int count;
+	mpz_t a, b, next;
+	mpz_init(a);
+	mpz_init_set_ui(b, 1);
+	mpz_init_set_ui(next, 2);
 
-	printf("%lu, %lu", a, b);
+	printf("%s, %s", mpz_get_str(NULL, 10, a), mpz_get_str(NULL, 10, b));
 
-	for (count = 2; count < 98; count++)
+	for (int count = 2; count < 98; count++)
 	{
-		next = a + b;
-		printf(", %lu", next);
+		mpz_add(next, a, b);
+		printf(", %s", mpz_get_str(NULL, 10, next));
 
-		a = b;
-		b = next;
+		mpz_set(a, b);
+		mpz_set(b, next);
 	}
 
 	printf("\n");
 
-	return (0);
+	mpz_clear(a);
+	mpz_clear(b);
+	mpz_clear(next);
+
+	return 0;
 }
