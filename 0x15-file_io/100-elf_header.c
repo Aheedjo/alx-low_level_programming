@@ -17,6 +17,113 @@ void print_type(unsigned int e_type, unsigned char *e_ident);
 void print_entry(unsigned long int e_entry, unsigned char *e_ident);
 void close_elf(int elf);
 
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <ELF_file>\n", argv[0]);
+        return 1;
+    }
+
+    int elf = open(argv[1], O_RDONLY);
+    if (elf == -1) {
+        perror("open");
+        return 1;
+    }
+
+    unsigned char e_ident[EI_NIDENT];
+    if (read(elf, e_ident, EI_NIDENT) != EI_NIDENT) {
+        perror("read");
+        close_elf(elf);
+        return 1;
+    }
+
+    check_elf(e_ident);
+    print_magic(e_ident);
+    print_class(e_ident);
+    print_data(e_ident);
+    print_version(e_ident);
+    print_abi(e_ident);
+    print_osabi(e_ident);
+
+    // You can continue to call other print functions as needed.
+
+    close_elf(elf);
+    return 0;
+}
+
+// Rest of your code (check_elf, print_magic, etc.) remains the same.
+
+void close_elf(int elf) {
+    if (close(elf) == -1) {
+        perror("close");
+        exit(1);
+    }
+}
+Please note that I added error handling for opening and reading the ELF file, as well as usage instructions for running the program. You can continue to call other print functions as needed to display information from the ELF header. Make sure to compile this code with the appropriate flags.
+
+
+
+
+User
+remove all the comments you added, and provide me with the whole code
+
+ChatGPT
+Here's your code with the comments removed:
+
+c
+Copy code
+#include <elf.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void check_elf(unsigned char *e_ident);
+void print_magic(unsigned char *e_ident);
+void print_class(unsigned char *e_ident);
+void print_data(unsigned char *e_ident);
+void print_version(unsigned char *e_ident);
+void print_abi(unsigned char *e_ident);
+void print_osabi(unsigned char *e_ident);
+void print_type(unsigned int e_type, unsigned char *e_ident);
+void print_entry(unsigned long int e_entry, unsigned char *e_ident);
+void close_elf(int elf);
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <ELF_file>\n", argv[0]);
+        return 1;
+    }
+
+    int elf = open(argv[1], O_RDONLY);
+    if (elf == -1) {
+        perror("open");
+        return 1;
+    }
+
+    unsigned char e_ident[EI_NIDENT];
+    if (read(elf, e_ident, EI_NIDENT) != EI_NIDENT) {
+        perror("read");
+        close_elf(elf);
+        return 1;
+    }
+
+    check_elf(e_ident);
+    print_magic(e_ident);
+    print_class(e_ident);
+    print_data(e_ident);
+    print_version(e_ident);
+    print_abi(e_ident);
+    print_osabi(e_ident);
+    print_type(*(unsigned int*)(e_ident + 0x10), e_ident);
+    print_entry(*(unsigned long int*)(e_ident + 0x18), e_ident);
+
+    close_elf(elf);
+    return 0;
+}
+
+
 /**
  * check_elf - Chcks if a file is an "ELF" file.
  * @e_ident: A pointer to an arr containing the "ELF" magic nums.
