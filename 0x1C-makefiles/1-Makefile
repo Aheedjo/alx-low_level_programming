@@ -1,0 +1,11 @@
+# Simple Makefile
+
+#Variables
+CC = gcc
+SRC = main.c school.c
+
+all: program
+
+#Target: Dependencies
+program: main.c school.c
+	$(CC) $(SRC) -o school

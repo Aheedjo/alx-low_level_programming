@@ -1,0 +1,27 @@
+# Simple Makefile
+
+#Variables
+CC = gcc
+SRC = main.c school.c
+# define the object files
+# This uses Suffix Replacement within a macro:
+#   $(name:str1=str2): for each word in 'name' replace 'str1' with 'str2'
+# Here replace the suffix .c of all words in the macro SRCS with .o suffix
+#
+OBJ = $(SRC:.c=.o)
+NAME = school
+
+all: program
+
+#Target: Dependencies
+program: $(OBJ)
+	$(CC) $(OBJ) -o $(NAME)
+
+# THIS LINE CAN BE OMITTED BECAUSE IMPLICIT RULE CAN BUILD IT
+# This is a pattern replacement rule for building .o files from their
+# associated .c files.  It uses automatic variables:
+#   $<  the name of the first dependency of the rule (a .c file)
+#   $@  the name of the target of the rule (a .o file)
+%.o : %.c
+	$(CC) -c $< -o $@
+
